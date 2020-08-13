@@ -1,0 +1,114 @@
+https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/disable_selinux_and_packagekit_and_check_the_umask_value.html
+1. Create Centos 7 minimal install image on virtual Box
+2. Set up bridged and host only network adapter for vm
+3. Steps to be performed on VM
+a. sudo yum update
+b. yum install  scp curl unzip tar wget gcc*
+c. yum install -y ntp
+d. 
+sudo systemctl start ntpd
+sudo systemctl enable ntpd
+e. sudo vi /etc/hosts
+    192.168.0.20    master.hadoop.com   master
+f. sudo hostnamectl set-hostname master.hadoop.com
+g. sudo vi /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=master.hadoop.com
+   
+sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=192.168.0.5       --> ip assigned to adapter
+NETWORK=192.168.0.0
+NETMASK=255.255.255.0
+GATEWAY=192.168.0.1      --> adapter ip from virtual box
+DNS=8.8.8.8 192.168.0.1
+NM_CONTROLLED=no 
+
+
+nameserver 8.8.8.8 entry in /etc/resolve.conf
+sudo systemctl restart network.service 
+
+  
+h. sudo systemctl disable firewalld
+sudo systemctl stop  firewalld
+sudo systemctl mask --now firewalld
+i. sudo setenforce 0
+j. sudo vi /etc/selinux/config
+   SELINUX=disabled
+k. umask 0022
+
+sudo yum install yum-utils
+sudo yum-complete-transaction --cleanup-only
+sudo rm -r /var/cache/yum
+sudo yum clean metadata
+
+
+
+Ambari installation
+
+sudo wget -nv https://archive.cloudera.com/p/ambari/centos7/2.x/updates/2.7.5.0/ambari.repo -O /etc/yum.repos.d/ambari.repo
+if previous command fails
+sudo wget http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.3.0/ambari.repo
+sudo mv ambari.repo /etc/yum.repos.d/
+
+sudo yum install ambari-server ambari-agent
+sudo yum install mysql-connector-java*
+sudo ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
+
+sudo yum install mariadb-server
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+sudo mysql_secure_installation
+	
+
+
+mysql -u root -p 
+
+CREATE USER 'ambari'@'%' IDENTIFIED BY 'bigdata';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'%';
+CREATE USER 'ambari'@'localhost' IDENTIFIED BY 'bigdata';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'localhost';
+CREATE USER 'ambari'@'master.hadoop.com' IDENTIFIED BY 'bigdata';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'master.hadoop.com';
+FLUSH PRIVILEGES;
+
+
+mysql -u ambari -p
+CREATE DATABASE ambari;
+USE ambari;
+SOURCE /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql;
+
+
+
+Hive 
+mysql -u root -p
+CREATE USER 'hive'@'localhost' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'localhost';
+CREATE USER 'hive'@'%' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'%';
+CREATE USER 'hive'@'master.hadoop.com' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'master.hadoop.com';
+FLUSH PRIVILEGES;
+
+
+mysql -u root -p
+CREATE DATABASE hive
+
+sudo ambari-server setup
+
+
+sudo systemctl start ambari-server
+sudo systemctl enable ambari-server
+
+sudo systemctl start ambari-agent
+sudo systemctl enable ambari-agent
+
+
+
+redhat7 (HDP-3.1):
+http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0
+redhat7 (HDP-3.1-GPL):
+http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0
+redhat7 (HDP-UTILS-1.1.0.22):
+http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
