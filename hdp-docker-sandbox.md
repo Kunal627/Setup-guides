@@ -9,3 +9,10 @@ Setup instructions for hortonworks docker sandbox
 7.	Navigate to the directory where you have extracted the file and run 
      sh docker-deploy-hdp265.sh
 
+
+
+Additional instructions (optional):
+===================================
+1. set hive.cli.print.header=true; on hive prompt if column headers are not printed.
+2.
+
