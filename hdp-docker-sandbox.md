@@ -22,7 +22,7 @@ amy_ds	     amy_ds
 
 If holger_gov doesn't work:
 ===========================
-edit the users-credentials.properties file using vi or any editor
+edit the users-credentials.properties (/usr/hdp/current/atlas-server/conf) file using vi or any editor
 
 holger_gov=<ROLE YOU want to give>::<sha256sum of the password>
 
