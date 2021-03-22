@@ -16,9 +16,27 @@ Setup instructions for hortonworks docker sandbox
 10. List of credentials user/password
 maria_dev  	maria_dev
 raj_ops	     raj_ops
-holger_gov	holger_gov
+holger_gov	holger_gov     -- Atlas login creds
 amy_ds	     amy_ds
-   
+
+
+If holger_gov doesn't work:
+===========================
+edit the users-credentials.properties file using vi or any editor
+
+holger_gov=<ROLE YOU want to give>::<sha256sum of the password>
+
+in order to generate the sha256sum use the below command in *nix terminal
+
+echo -n "yourpassword" | sha256sum
+
+it will give you some output like below
+
+4d20573d20756b4b2cd80e41def04b52907710000b038f0f901d4b568e254fc6 -
+
+copy the sum till 6 leave out the space and - (dash) and paste it in the users-credentials.properties files.
+
+Restart you ATLAS server from ambari, and it will work(https://community.cloudera.com/t5/Support-Questions/ATLAS-UI-authnetication-with-holger-gov-gives-invalid/td-p/243759)
 
 NOTE:
 just in case you are getting port bind errors. Get the list of all retricted ports, run the following on windows
