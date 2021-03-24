@@ -10,6 +10,7 @@ socket=/var/lib/mysql/mysql.sock  <br />
 user=mysql   <br /> 
 #### Disabling symbolic-links is recommended to prevent assorted security risks  <br />  
 symbolic-links=0   <br /> 
+</p>
 
 2) service mysqld restart
 
@@ -21,4 +22,5 @@ symbolic-links=0   <br />
    FLUSH PRIVILEGES; 
    
 6) mysql -u root -p (use new password to login)
-</p>
+
+
