@@ -1,8 +1,8 @@
 How to change the mysql password
 ================================
 
-1)
-vi /etc/my.cnf  
+<p>
+1) vi /etc/my.cnf  
 [mysqld]
 skip-grant-tables
 datadir=/var/lib/mysql
@@ -21,3 +21,4 @@ symbolic-links=0
    FLUSH PRIVILEGES; 
    
 6) mysql -u root -p (use new password to login)
+</p>
