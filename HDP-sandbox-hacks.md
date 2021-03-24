@@ -2,14 +2,14 @@ How to change the mysql password
 ================================
 
 <p>
-1) vi /etc/my.cnf  
-[mysqld]
-skip-grant-tables
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
-user=mysql
-#### Disabling symbolic-links is recommended to prevent assorted security risks
-symbolic-links=0
+1) vi /etc/my.cnf    
+[mysqld]  
+skip-grant-tables  
+datadir=/var/lib/mysql  
+socket=/var/lib/mysql/mysql.sock  
+user=mysql  
+#### Disabling symbolic-links is recommended to prevent assorted security risks  
+symbolic-links=0  
 
 2) service mysqld restart
 
