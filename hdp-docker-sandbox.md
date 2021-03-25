@@ -15,9 +15,10 @@ Setup instructions for hortonworks docker sandbox
    
 10. List of credentials user/password
 maria_dev  	maria_dev
-raj_ops	     raj_ops
+raj_ops	     raj_ops        -- for Ambari UI
 holger_gov	holger_gov     -- Atlas login creds
 amy_ds	     amy_ds
+admin          admin          -- for atlas
 
 
 If holger_gov doesn't work:
