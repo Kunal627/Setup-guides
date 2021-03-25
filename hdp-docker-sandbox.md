@@ -43,6 +43,7 @@ just in case you are getting port bind errors. Get the list of all retricted por
 netsh interface ipv4 show excludedportrange protocol=tcp
 in proxy-deploy script , replace all restricted host ports with new ports which are not blocked. And launch the proxy shell script again.
 Proxy shell script ia available in sandbox\proxy
+Also check, the mount paths given with option -v are in doube quotes.
 
 
 
